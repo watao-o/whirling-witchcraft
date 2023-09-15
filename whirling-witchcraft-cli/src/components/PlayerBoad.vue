@@ -26,46 +26,23 @@
 
 
 <script>
-import { io } from "socket.io-client";
 
 export default {
-  name: "HelloWorld",
+  name: "PlayerBoad",
   props: {
   },
   components: {
   },
   data() {
     return {
-      socket: io('http://localhost:3000'),
-      msg: ""
     };
   },
   created() {
-    this.socket.on("connect", () => {
-      console.log("connected");
-    });
-  },
-  computed: {
-  },
-  watch: {
   },
   mounted() {
-    // サーバーからのイベント受信
-    this.socket.on("recieveSampleEvent", (param) => {
-      console.log('success!!')
-      // 受け取ったパラメータを設定
-      this.msg = param
-    });
   },
   methods: {
-    /**
-     * sampleボタンクリックでサーバー呼び出し
-     */
-    sampleEvent() {
-      console.log("callsampleEvent");
-      this.socket.emit("sampleEvent")
-    },
-  },
+ },
 };
 </script>
 
