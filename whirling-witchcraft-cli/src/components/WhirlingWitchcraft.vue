@@ -1,5 +1,5 @@
 <template>
-  <v-container align="center" class="mx-2 background-image max-dimensions">
+  <v-container align="center" class="mx-2 max-dimensions">
     <VRow justify="center">
       <h1>Sample Page</h1>
     </VRow>
