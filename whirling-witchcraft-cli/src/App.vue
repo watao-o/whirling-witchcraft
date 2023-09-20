@@ -1,5 +1,10 @@
 <template>
-  <WhirlingWitchcraft msg="Welcome to Your Vue.js App"/>
+  <v-layout class="rounded rounded-md">
+    <!-- <v-app-bar title="whirling-witchcraft" color="cyan-lighten-3"></v-app-bar> -->
+    <v-main>
+      <WhirlingWitchcraft msg="Welcome to Your Vue.js App"/>
+    </v-main>
+  </v-layout>
 </template>
 
 <script>

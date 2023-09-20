@@ -3,18 +3,6 @@
     <VRow justify="center">
       <h1>Sample Page</h1>
     </VRow>
-    <VRow justify="center">
-      <VCol cols="2" class="border">sapmle1</VCol>
-      <VCol cols="2" class="border">sapmle2</VCol>
-      <VCol cols="2" class="border">sapmle3</VCol>
-      <VCol cols="2" class="border">sapmle4</VCol>
-    </VRow>
-    <VRow justify="center">
-      <VCol cols="2" class="border">sapmle5</VCol>
-      <VCol cols="2" class="border">sapmle6</VCol>
-      <VCol cols="2" class="border">sapmle7</VCol>
-      <VCol cols="2" class="border">sapmle8</VCol>
-    </VRow>
     <VRow justify="center" class="py-6">
       <VBtn @click="sampleEvent" color="primary">sample</VBtn>
     </VRow>
@@ -22,7 +10,11 @@
       <h2>{{ msg  }}</h2>
     </VRow>
     <!-- プレイヤーボード -->
-    <PlayerBoad></PlayerBoad>
+    <PlayerBoad
+      ref="playerBoad"
+      :materials="materials"
+    ></PlayerBoad>
+    <v-footer app border height="50" color="cyan-accent-3"></v-footer>
   </v-container>
 </template>
 
@@ -41,7 +33,19 @@ export default {
   data() {
     return {
       socket: io('http://localhost:3000'),
-      msg: ""
+      msg: "",
+      // 所持資材
+      materials: {
+        black: 0,
+        white: 1,
+        red: 4,
+        blue: 4,
+        green: 4
+      },
+      // 配置カード
+      cards: [],
+      // 手札
+      handCards: []
     };
   },
   created() {
