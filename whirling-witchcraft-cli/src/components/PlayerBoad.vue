@@ -10,6 +10,7 @@
     </v-row>
     <material-area
       ref="materialArea"
+      :materials="materials"
     />
   </v-container>
 </template>

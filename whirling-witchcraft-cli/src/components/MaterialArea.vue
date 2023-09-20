@@ -1,5 +1,6 @@
 <template>
   <v-card color="indigo-lighten-1" class="mt-5" width="800">
+    {{ materials }}
     <v-card-text class="pt-16">
       <!-- 黒 -->
       <v-row justify="center">
@@ -10,9 +11,10 @@
           <v-chip label variant="elevated" color="grey-darken-3">
             <v-card
               v-show="true"
+              :loading="materials.black >= n"
               height="15"
               width="15"
-              color="black"
+              :color="materials.black >= n ? 'black' : 'grey-darken-3'"
             ></v-card>
           </v-chip>
         </v-col>
@@ -23,12 +25,13 @@
           <v-chip><v-icon color="white">mdi-rabbit</v-icon></v-chip>
         </v-col>
         <v-col v-for="n in 4" :key="n" cols="1">
-          <v-chip label variant="elevated" color="grey-lighten-3">
+          <v-chip label variant="elevated" color="grey-lighten-1">
             <v-card
               v-show="true"
+              :loading="materials.white >= n"
               height="15"
               width="15"
-              color="white"
+              :color="materials.white >= n ? 'white' : 'grey-lighten-1'"
             ></v-card>
           </v-chip>
         </v-col>
@@ -42,9 +45,10 @@
           <v-chip label variant="elevated" color="red-lighten-3">
             <v-card
               v-show="true"
+              :loading="materials.red >= n"
               height="15"
               width="15"
-              color="red"
+              :color="materials.red >= n ? 'red' : 'red-lighten-3'"
             ></v-card>
           </v-chip>
         </v-col>
@@ -58,9 +62,10 @@
           <v-chip label variant="elevated" color="blue-lighten-3">
             <v-card
               v-show="true"
+              :loading="materials.blue >= n"
               height="15"
               width="15"
-              color="blue"
+              :color="materials.blue >= n ? 'blue' : 'blue-lighten-3'"
             ></v-card>
           </v-chip>
         </v-col>
@@ -74,9 +79,10 @@
           <v-chip label variant="elevated" color="green-lighten-3">
             <v-card
               v-show="true"
+              :loading="materials.green >= n"
               height="15"
               width="15"
-              color="green"
+              :color="materials.green >= n ? 'green' : 'green-lighten-3'"
             ></v-card>
           </v-chip>
         </v-col>
@@ -89,6 +95,8 @@
 export default {
   name: "materialArea",
   props: {
+    // 所持資材
+    materials: { type: Object }
   },
   components: {
   },

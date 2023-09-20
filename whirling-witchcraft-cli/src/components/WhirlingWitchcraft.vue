@@ -9,6 +9,18 @@
     <VRow justify="center">
       <h2>{{ msg  }}</h2>
     </VRow>
+    <VRow justify="center" class="py-6">
+      <VBtn @click="materials.black++" color="black">add black</VBtn>
+      <VBtn @click="materials.black--" color="black">dec black</VBtn>
+      <VBtn @click="materials.white++" color="white">add white</VBtn>
+      <VBtn @click="materials.white--" color="white">dec white</VBtn>
+      <VBtn @click="materials.red++" color="red">add red</VBtn>
+      <VBtn @click="materials.red--" color="red">dec red</VBtn>
+      <VBtn @click="materials.blue++" color="blue">add blue</VBtn>
+      <VBtn @click="materials.blue--" color="blue">dec blue</VBtn>
+      <VBtn @click="materials.green++" color="green">add green</VBtn>
+      <VBtn @click="materials.green--" color="green">dec green</VBtn>
+    </VRow>
     <!-- プレイヤーボード -->
     <PlayerBoad
       ref="playerBoad"
