@@ -24,9 +24,19 @@
     <!-- プレイヤーボード -->
     <PlayerBoad
       ref="playerBoad"
+      :data="data"
       :materials="materials"
+      @updateCardUsed="updateCardUsed($event)"
+      @alert="alert($event)"
     ></PlayerBoad>
-    <v-footer app border height="50" color="cyan-accent-3"></v-footer>
+    <v-footer app border height="60">
+      <!-- アラート -->
+      <v-alert
+        v-if="showAlert"
+        type="warning"
+        :title="alertMsg"
+      ></v-alert>
+    </v-footer>
   </v-container>
 </template>
 
@@ -34,6 +44,7 @@
 <script>
 import { io } from "socket.io-client";
 import PlayerBoad from "./PlayerBoad.vue";
+import data from "@/assets/data.json"
 
 export default {
   name: "WhirlingWitchcraft",
@@ -57,7 +68,10 @@ export default {
       // 配置カード
       cards: [],
       // 手札
-      handCards: []
+      handCards: [],
+      showAlert: false,
+      alertMsg: '',
+      data: data
     };
   },
   created() {
@@ -85,6 +99,39 @@ export default {
       console.log("callsampleEvent");
       this.socket.emit("sampleEvent")
     },
+    /**
+     * カード使用イベント
+     */
+    updateCardUsed ({usedCard, card}) {
+      // console.log('updateCardUsed')
+      // console.log('used:', usedCard, 'card:', card)
+      // カードを新しく使用する場合、資源を使用
+      if (usedCard) {
+        this.materials.black -= card.upperBlack
+        this.materials.white -= card.upperWhite
+        this.materials.red -= card.upperRed
+        this.materials.blue -= card.upperBlue
+        this.materials.green -= card.upperGreen
+      // カードの使用をやめる場合、使っている資源を追加
+      } else {
+        this.materials.black += card.upperBlack
+        this.materials.white += card.upperWhite
+        this.materials.red += card.upperRed
+        this.materials.blue += card.upperBlue
+        this.materials.green += card.upperGreen
+      }
+    },
+    alert (msg) {
+      console.log('アラート：', msg)
+      if (!this.showAlert) {
+        this.alertMsg = msg
+        this.showAlert = true
+        setTimeout(() => {
+          this.showAlert = false
+          this.alertMsg = ''
+        }, 1000)
+      }
+    }
   },
 };
 </script>
