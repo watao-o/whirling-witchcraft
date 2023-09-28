@@ -1,31 +1,38 @@
 <template>
   <v-container class="pa-0">
-    <v-card max-height="25" max-width="200" color="deep-purple-lighten-4">
+    <v-card max-height="25" max-width="250" color="deep-purple-lighten-4">
       <VRow>
-      <v-col cols="3" class="py-0"/>
-      <v-col cols="6" class="py-0">
-        <!-- <v-btn
-          color="deep-purple-lighten-3"
-          @click="useCard"
-        >
-          カード使用
-        </v-btn> -->
-        <v-checkbox
-          v-model="usedCard"
-          justify="center"
-          label="useCard"
-          class="ma-0"
-          density="comfortable"
-          @click="onChkBox()"
-        />
-      </v-col>
-      <v-col cols="3" class="py-0"/>
-    </VRow>
+        <v-col cols="3" class="py-0"/>
+        <v-col cols="6" class="py-0">
+          <!-- <v-btn
+            color="deep-purple-lighten-3"
+            @click="useCard"
+          >
+            カード使用
+          </v-btn> -->
+          <v-checkbox
+            v-model="usedCard"
+            justify="center"
+            label="useCard"
+            class="ma-0"
+            density="comfortable"
+            @click="onChkBox()"
+          />
+        </v-col>
+        <v-col cols="3" class="py-0"/>
+      </VRow>
     </v-card>
         
-    <v-card width="200" color="blue">
+    <v-card width="250" height="360" color="white"  border class="pa-0">
+      <v-img
+        contain
+        :src="require('@/assets/card_outer.png')"
+        max-height="500"
+        max-width="250"
+        alt="カードの外側"
+      >
       <v-card-item>
-        <v-card-title class="custom-height-arcana">
+        <v-card-title class="custom-height-arcana py-0">
           <!-- 魔術書 -->
           <v-chip v-for="n in card.arcanaMagicBook" :key="n">
             <v-icon color="green">mdi-notebook-multiple</v-icon>
@@ -41,11 +48,19 @@
         </v-card-title>
       </v-card-item>
       <v-card-text>
-        <v-card color="lime-lighten-5">
-          <v-card-title>
+        <v-card>
+        <!-- <v-card color="lime-lighten-5"> -->
+          <v-img
+            contain
+            :src="require('@/assets/card_inner_noname.png')"
+            max-height="400"
+            max-width="220"
+            alt="カードの内側"
+          >
+          <v-card-title :style="fontStyle" class="pt-5">
             {{ card.name }}
           </v-card-title>
-          <v-card-text color="white" class="custom-height">
+          <v-card-text color="white" class="custom-height py-0">
             <!-- 黒 -->
             <v-chip label variant="elevated" color="grey-darken-3" v-for="n in card.upperBlack" :key="n">
               <v-icon color="black">mdi-emoticon-devil</v-icon>
@@ -105,12 +120,12 @@
               ></v-card>
             </VRow>
           </v-card-text>
-          <v-card-text>
+          <v-card-text class="py-0">
             <v-icon v-if="!card.reversable" color="black">mdi-arrow-down-thick</v-icon>
             <v-icon v-if="card.reversable" color="black">mdi-swap-vertical</v-icon>
           </v-card-text>
           <!-- 下段 -->
-          <v-card-text class="custom-height">
+          <v-card-text class="custom-height py-0 px-10">
             <!-- 黒 -->
             <v-chip label variant="elevated" color="grey-darken-3" v-for="n in card.lowerBlack" :key="n">
               <v-icon color="black">mdi-emoticon-devil</v-icon>
@@ -170,8 +185,10 @@
               ></v-card>
             </VRow>
           </v-card-text>
+          </v-img>
         </v-card>
-      </v-card-text>
+        </v-card-text>
+      </v-img>
     </v-card>
   </v-container>
 </template>
@@ -189,7 +206,12 @@ export default {
   data() {
     return {
       usedCard: false,
-      returnFlg: false
+      returnFlg: false,
+      fontStyle: {
+        fontSize: "15pt",
+        fontFamily: "游明朝",
+        color: "olive"
+      }
     };
   },
   created() {
