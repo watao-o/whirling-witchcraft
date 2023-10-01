@@ -7,10 +7,10 @@
           :card="card"
         />
       </v-col> -->
-      <v-col v-for="card in data.cardList" :key="card.cardId" cols="2" class="mx-3 px-0 py-1">
+      <v-col v-for="card in mixingCards" :key="card.cardId" cols="2" class="mx-3 px-0 py-1">
         <mixing-card
           ref="mixingCard"
-          :card="card"
+          :card="getMixingCardData(card.cardId)"
           :materials="materials"
           @updateCardUsed="$emit('updateCardUsed', $event)"
           @alert="$emit('alert', $event)"
@@ -27,11 +27,13 @@
 <script>
 import MaterialArea from './MaterialArea.vue';
 import MixingCard from './MixingCard.vue'
+import { getMixingCardData } from '@/utils/utils.js'
 
 export default {
   name: "PlayerBoad",
   props: {
-    data: { type: Object },
+    // 設置済み調合法カード
+    mixingCards: { type: Array },
     // 所持資材
     materials: { type: Object }
   },
@@ -48,6 +50,7 @@ export default {
         {id: "0004", name: '粉砕の呪文４'},
         {id: "0005", name: '粉砕の呪文５'}
       ],
+      getMixingCardData:getMixingCardData
     };
   },
   created() {

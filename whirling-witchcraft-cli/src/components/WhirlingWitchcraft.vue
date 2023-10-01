@@ -10,25 +10,25 @@
       <h2>{{ msg  }}</h2>
     </VRow>
     <VRow justify="center" class="py-6">
-      <VBtn @click="materials.black++" color="black">add black</VBtn>
-      <VBtn @click="materials.black--" color="black">dec black</VBtn>
-      <VBtn @click="materials.white++" color="white">add white</VBtn>
-      <VBtn @click="materials.white--" color="white">dec white</VBtn>
-      <VBtn @click="materials.red++" color="red">add red</VBtn>
-      <VBtn @click="materials.red--" color="red">dec red</VBtn>
-      <VBtn @click="materials.blue++" color="blue">add blue</VBtn>
-      <VBtn @click="materials.blue--" color="blue">dec blue</VBtn>
-      <VBtn @click="materials.green++" color="green">add green</VBtn>
-      <VBtn @click="materials.green--" color="green">dec green</VBtn>
+      <VBtn @click="playerInfo.materials.black++" color="black">add black</VBtn>
+      <VBtn @click="playerInfo.materials.black--" color="black">dec black</VBtn>
+      <VBtn @click="playerInfo.materials.white++" color="white">add white</VBtn>
+      <VBtn @click="playerInfo.materials.white--" color="white">dec white</VBtn>
+      <VBtn @click="playerInfo.materials.red++" color="red">add red</VBtn>
+      <VBtn @click="playerInfo.materials.red--" color="red">dec red</VBtn>
+      <VBtn @click="playerInfo.materials.blue++" color="blue">add blue</VBtn>
+      <VBtn @click="playerInfo.materials.blue--" color="blue">dec blue</VBtn>
+      <VBtn @click="playerInfo.materials.green++" color="green">add green</VBtn>
+      <VBtn @click="playerInfo.materials.green--" color="green">dec green</VBtn>
     </VRow>
     <!-- プレイヤーボード -->
-    <PlayerBoad
+    <player-boad
       ref="playerBoad"
-      :data="data"
-      :materials="materials"
+      :mixingCards="playerInfo.placedMixingCards"
+      :materials="playerInfo.materials"
       @updateCardUsed="updateCardUsed($event)"
       @alert="alert($event)"
-    ></PlayerBoad>
+    ></player-boad>
     <v-footer app border height="60">
       <!-- アラート -->
       <v-alert
@@ -73,8 +73,11 @@ export default {
           green: 4 
         },
         // 設置済み調合法カード
-        placedMixingCard: [
-          {cardId: 'card_0001'}
+        placedMixingCards: [
+          {cardId: 'card_0001'},
+          {cardId: 'card_0003'},
+          {cardId: 'card_0010'},
+          {cardId: 'card_0011'},
         ],
         // 魔女カードID
         witchCardId: 'witch_0001',
@@ -95,18 +98,6 @@ export default {
           {cardId: 'card_0005'}
         ]
       },
-      // 所持資材（サーバーで保持する予定）
-      materials: {
-        black: 0,
-        white: 1,
-        red: 4,
-        blue: 4,
-        green: 4
-      },
-      // 配置カード（サーバーで保持する予定）
-      cards: [],
-      // 手札（サーバーで保持する予定）
-      handCards: [],
       showAlert: false,
       alertMsg: '',
       data: data
@@ -143,22 +134,20 @@ export default {
      * カード使用イベント
      */
     updateCardUsed ({usedCard, card}) {
-      // console.log('updateCardUsed')
-      // console.log('used:', usedCard, 'card:', card)
       // カードを新しく使用する場合、資源を使用
       if (usedCard) {
-        this.materials.black -= card.upperBlack
-        this.materials.white -= card.upperWhite
-        this.materials.red -= card.upperRed
-        this.materials.blue -= card.upperBlue
-        this.materials.green -= card.upperGreen
+        this.playerInfo.materials.black -= card.upperBlack
+        this.playerInfo.materials.white -= card.upperWhite
+        this.playerInfo.materials.red -= card.upperRed
+        this.playerInfo.materials.blue -= card.upperBlue
+        this.playerInfo.materials.green -= card.upperGreen
       // カードの使用をやめる場合、使っている資源を追加
       } else {
-        this.materials.black += card.upperBlack
-        this.materials.white += card.upperWhite
-        this.materials.red += card.upperRed
-        this.materials.blue += card.upperBlue
-        this.materials.green += card.upperGreen
+        this.playerInfo.materials.black += card.upperBlack
+        this.playerInfo.materials.white += card.upperWhite
+        this.playerInfo.materials.red += card.upperRed
+        this.playerInfo.materials.blue += card.upperBlue
+        this.playerInfo.materials.green += card.upperGreen
       }
     },
     alert (msg) {
