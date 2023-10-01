@@ -23,7 +23,7 @@
       </VRow>
     </v-card>
         
-    <v-card width="250" height="350" color="white"  border class="pa-0">
+    <v-card width="250" height="350" color="deep-purple-lighten-4" class="pa-0">
       <v-img
         contain
         :src="require('@/assets/card_outer2.png')"
