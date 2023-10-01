@@ -45,6 +45,7 @@
 import { io } from "socket.io-client";
 import PlayerBoad from "./PlayerBoad.vue";
 import data from "@/assets/data.json"
+import { getMixingCardData } from '@/utils/utils.js'
 
 export default {
   name: "WhirlingWitchcraft",
@@ -57,7 +58,44 @@ export default {
     return {
       socket: io('http://localhost:3000'),
       msg: "",
-      // 所持資材
+      // プレイヤー情報（サーバーで保持する予定）
+      playerInfo: {
+        // プレイヤーNo
+        num: 1,
+        // 名前
+        name: 'hoge',
+        // 所持資材
+        materials: {
+          black: 0,
+          white: 1,
+          red: 4,
+          blue: 4,
+          green: 4 
+        },
+        // 設置済み調合法カード
+        placedMixingCard: [
+          {cardId: 'card_0001'}
+        ],
+        // 魔女カードID
+        witchCardId: 'witch_0001',
+        // アルカナ
+        arcana: {
+          // 魔術書
+          magicBook: 0,
+          // カラス
+          crow: 0,
+          // 秘薬
+          nostrum: 0
+        },
+        // 手札情報
+        handCards: [
+          {cardId: 'card_0002'},
+          {cardId: 'card_0003'},
+          {cardId: 'card_0004'},
+          {cardId: 'card_0005'}
+        ]
+      },
+      // 所持資材（サーバーで保持する予定）
       materials: {
         black: 0,
         white: 1,
@@ -65,9 +103,9 @@ export default {
         blue: 4,
         green: 4
       },
-      // 配置カード
+      // 配置カード（サーバーで保持する予定）
       cards: [],
-      // 手札
+      // 手札（サーバーで保持する予定）
       handCards: [],
       showAlert: false,
       alertMsg: '',
@@ -98,6 +136,8 @@ export default {
     sampleEvent() {
       console.log("callsampleEvent");
       this.socket.emit("sampleEvent")
+      console.log('カードデータ取得')
+      console.log('取得：',getMixingCardData('card_0002'))
     },
     /**
      * カード使用イベント

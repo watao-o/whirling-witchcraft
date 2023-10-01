@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-0">
-    <v-card max-height="25" max-width="250" color="deep-purple-lighten-4">
+    <v-card max-height="30" max-width="250" color="deep-purple-lighten-4">
       <VRow>
         <v-col cols="3" class="py-0"/>
         <v-col cols="6" class="py-0">
@@ -23,26 +23,26 @@
       </VRow>
     </v-card>
         
-    <v-card width="250" height="360" color="white"  border class="pa-0">
+    <v-card width="250" height="350" color="white"  border class="pa-0">
       <v-img
         contain
-        :src="require('@/assets/card_outer.png')"
+        :src="require('@/assets/card_outer2.png')"
         max-height="500"
         max-width="250"
         alt="カードの外側"
       >
-      <v-card-item>
+      <v-card-item class="py-0">
         <v-card-title class="custom-height-arcana py-0">
           <!-- 魔術書 -->
-          <v-chip v-for="n in card.arcanaMagicBook" :key="n">
+          <v-chip v-for="n in card.arcanaMagicBook" :key="n" class="mt-1 px-2">
             <v-icon color="green">mdi-notebook-multiple</v-icon>
           </v-chip>
           <!-- カラス -->
-          <v-chip v-for="n in card.arcanaCrow" :key="n">
+          <v-chip v-for="n in card.arcanaCrow" :key="n" class="mt-1 px-2">
             <font-awesome-icon :icon="['fas', 'crow']" style="color: black;" />
           </v-chip>
           <!-- 秘薬 -->
-          <v-chip v-for="n in card.arcanaNostrum" :key="n">
+          <v-chip v-for="n in card.arcanaNostrum" :key="n" class="mt-1 px-2">
             <v-icon color="red">mdi-pot-steam</v-icon>
           </v-chip>
         </v-card-title>
@@ -60,7 +60,7 @@
           <v-card-title :style="fontStyle" class="pt-5">
             {{ card.name }}
           </v-card-title>
-          <v-card-text color="white" class="custom-height py-0">
+          <v-card-text color="white" class="custom-height py-0 px-10">
             <!-- 黒 -->
             <v-chip label variant="elevated" color="grey-darken-3" v-for="n in card.upperBlack" :key="n">
               <v-icon color="black">mdi-emoticon-devil</v-icon>
