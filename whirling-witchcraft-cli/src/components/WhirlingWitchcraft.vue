@@ -157,11 +157,7 @@ export default {
           {cardId: 'card_0003'},
           {cardId: 'card_0004'},
           {cardId: 'card_0005'}
-        ],
-        // style
-        borderStyle: 'border: 1px solid;',
-        colorLeft: 'background-color: yellow;',
-        colorRight: 'background-color: orange;',
+        ]
       },
       // 他プレイヤー情報
       otherPlayerInfoList: [],
@@ -172,7 +168,11 @@ export default {
         top: '20px', // 画面上部からの距離（適宜調整）
         right: '20px', // 画面右側からの距離（適宜調整）
       },
-      data: data
+      data: data,
+      // style
+      borderStyle: 'border: 1px solid;',
+      colorLeft: 'background-color: yellow;',
+      colorRight: 'background-color: orange;',
     };
   },
   created() {
