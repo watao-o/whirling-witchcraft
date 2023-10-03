@@ -1,5 +1,32 @@
 <template>
   <v-container align="center" class="mx-2 max-dimensions">
+    <v-card :style="playerListStyle" color="purple-lighten-4">
+      <v-card-title>
+        プレイヤーリスト
+      </v-card-title>
+      <v-card-text>
+        <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th :style="borderStyle + 'background-color: lightblue; width: 40px;'">隣人</th>
+                <th :style="borderStyle + 'background-color: lightblue; width: 40px;'">No</th>
+                <th :style="borderStyle + 'background-color: lightblue; width: 150px;'">name</th>
+              </tr>
+            </thead>
+            <tbody  style="background-color: white;">
+              <tr v-for="player in playerList" :key="player.num">
+                <td v-if="player.right" :style="borderStyle + colorRight">右隣</td>
+                <td v-else-if="player.left" :style="borderStyle + colorLeft">左隣</td>
+                <td v-else :style="borderStyle"></td>
+                <td :style="borderStyle + (player.right ? colorRight : (player.left ? colorLeft : ''))">{{ player.num }}</td>
+                <td :style="borderStyle + (player.right ? colorRight : (player.left ? colorLeft : ''))">{{ player.name }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </v-card-text>
+    </v-card>
     <VRow justify="center">
       <h1>Sample Page</h1>
     </VRow>
@@ -29,6 +56,31 @@
       @updateCardUsed="updateCardUsed($event)"
       @alert="alert($event)"
     ></player-boad>
+    <!-- 他プレイヤー情報 -->
+    <v-card color="blue">
+      <h1>他プレイヤー情報</h1>
+    </v-card>
+    <v-card border>
+      <v-row>
+        <v-col cols="6" v-for="otherPlayer in otherPlayerInfoList" :key="otherPlayer.num" :style='borderStyle'>
+        <v-card :color="otherPlayer.right ? 'orange' : otherPlayer.left ? 'yellow' : 'purple-lighten-4'">
+          <h2>
+            <div v-if="otherPlayer.right">右隣：{{ otherPlayer.name }}</div>
+            <div v-else-if="otherPlayer.left">左隣：{{ otherPlayer.name }}</div>
+            <div v-else>{{ otherPlayer.name }}</div>
+          </h2>
+        </v-card>
+            <player-boad
+              :ref="'playerBoad' + otherPlayer.num"
+              :mixingCards="otherPlayer.placedMixingCards"
+              :materials="otherPlayer.materials"
+              @updateCardUsed="updateCardUsed($event)"
+              @alert="alert($event)"
+            ></player-boad>
+          <!-- {{ otherPlayer }} -->
+        </v-col>
+      </v-row>
+    </v-card>
     <v-footer app border height="60">
       <!-- アラート -->
       <v-alert
@@ -58,7 +110,15 @@ export default {
     return {
       socket: io('http://localhost:3000'),
       msg: "",
+      playerName: 'oshi',
       // プレイヤー情報（サーバーで保持する予定）
+      playerList: [
+        {num: 1, name: "ega", right: false, left: true},
+        {num: 2, name: "oshi", right: false, left: false},
+        {num: 3, name: "ta1", right: true, left: false},
+        {num: 4, name: "ikutoru", right: false, left: false},
+        {num: 5, name: "hamu", right: false, left: false}
+      ],
       playerInfo: {
         // プレイヤーNo
         num: 1,
@@ -78,6 +138,7 @@ export default {
           {cardId: 'card_0003'},
           {cardId: 'card_0010'},
           {cardId: 'card_0011'},
+          {cardId: 'card_0017'}
         ],
         // 魔女カードID
         witchCardId: 'witch_0001',
@@ -96,10 +157,21 @@ export default {
           {cardId: 'card_0003'},
           {cardId: 'card_0004'},
           {cardId: 'card_0005'}
-        ]
+        ],
+        // style
+        borderStyle: 'border: 1px solid;',
+        colorLeft: 'background-color: yellow;',
+        colorRight: 'background-color: orange;',
       },
+      // 他プレイヤー情報
+      otherPlayerInfoList: [],
       showAlert: false,
       alertMsg: '',
+      playerListStyle: {
+        position: 'fixed',
+        top: '20px', // 画面上部からの距離（適宜調整）
+        right: '20px', // 画面右側からの距離（適宜調整）
+      },
       data: data
     };
   },
@@ -107,6 +179,20 @@ export default {
     this.socket.on("connect", () => {
       console.log("connected");
     });
+    this.playerList.forEach(player => {
+      // 自分以外のプレイヤーの情報を作成する
+      if (player.name !== this.playerName) {
+        const playerInfo = {
+          ...this.playerInfo,
+          num: player.num,
+          name: player.name,
+          right: player.right,
+          left: player.left 
+        }
+        this.otherPlayerInfoList.push(playerInfo)
+      }
+    });
+    console.log('他プレイヤー情報:', this.otherPlayerInfoList)
   },
   computed: {
   },

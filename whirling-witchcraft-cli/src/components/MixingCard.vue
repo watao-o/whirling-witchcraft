@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-0">
-    <v-card max-height="30" max-width="250" color="deep-purple-lighten-4">
+    <v-card max-height="30" width="250" color="deep-purple-lighten-4">
       <VRow>
         <v-col cols="3" class="py-0"/>
         <v-col cols="6" class="py-0">
@@ -23,7 +23,7 @@
       </VRow>
     </v-card>
         
-    <v-card width="250" height="350" color="deep-purple-lighten-4" class="pa-0">
+    <v-card width="250" max-height="350" color="deep-purple-lighten-4" class="pa-0">
       <v-img
         contain
         :src="require('@/assets/card_outer2.png')"
@@ -86,36 +86,36 @@
               <v-card
                 v-for="n in card.upperBlack" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'black'"
               ></v-card>
               <v-card
                 v-for="n in card.upperWhite" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'white'"
               ></v-card>
               <v-card
                 v-for="n in card.upperGreen" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'green'"
               ></v-card>
               <v-card
                 v-for="n in card.upperRed" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'red'"
               ></v-card>
               <v-card
                 v-for="n in card.upperBlue" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'blue'"
               ></v-card>
             </VRow>
@@ -151,36 +151,36 @@
               <v-card
                 v-for="n in card.lowerBlack" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'black'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerWhite" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'white'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerGreen" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'green'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerRed" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'red'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerBlue" :key="n"
                 loading
-                height="15"
-                width="15"
+                max-height="15"
+                max-width="15"
                 :color="'blue'"
               ></v-card>
             </VRow>

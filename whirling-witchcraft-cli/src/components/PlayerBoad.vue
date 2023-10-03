@@ -17,10 +17,35 @@
         />
       </v-col>
     </v-row>
-    <material-area
-      ref="materialArea"
-      :materials="materials"
-    />
+    <v-row>
+      <v-col cols="6">
+        <material-area
+          ref="materialArea"
+          :materials="materials"
+        />
+      </v-col>
+      <v-col cols="2" class="mt-6">
+        <v-img
+          contain
+          :src="require('@/assets/witch.png')"
+          max-height="400"
+          max-width="220"
+          alt="魔女カード"
+        />
+      </v-col>
+      <v-col cols="2" class="mt-6">
+        <v-img
+          contain
+          :src="require('@/assets/arcana.png')"
+          max-height="400"
+          max-width="220"
+          alt="アルカナカード"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <h1>手札置き場</h1>
+    </v-row>
   </v-container>
 </template>
 

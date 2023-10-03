@@ -1,7 +1,14 @@
 <template>
-  <v-card color="indigo-lighten-1" class="mt-5" width="800">
+  <v-card color="indigo-lighten-1" class="mt-5" max-width="800" min-width="400">
     {{ materials }}
     <v-card-text class="pt-16">
+      <v-row justify="center">
+        <font-awesome-icon :icon="['fasl', 'circle-nodes']" spin spin-reverse color="blue" class="fa-5x"/>
+      </v-row>
+      <v-row justify="center">
+        <font-awesome-icon :icon="['fasl', 'circle-nodes']" spin spin-reverse color="blue" class="fa-5x"/>
+        <font-awesome-icon :icon="['fasl', 'circle-nodes']" spin color="blue" class="fa-5x"/>
+      </v-row>
       <!-- 黒 -->
       <v-row justify="center">
         <v-col cols="1">
