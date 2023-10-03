@@ -21,6 +21,9 @@
       <VBtn @click="playerInfo.materials.green++" color="green">add green</VBtn>
       <VBtn @click="playerInfo.materials.green--" color="green">dec green</VBtn>
     </VRow>
+    <VRow class="justify-end">
+      <player-list ref="playerList"></player-list>
+    </VRow>
     <!-- プレイヤーボード -->
     <player-boad
       ref="playerBoad"
@@ -46,13 +49,15 @@ import { io } from "socket.io-client";
 import PlayerBoad from "./PlayerBoad.vue";
 import data from "@/assets/data.json"
 import { getMixingCardData } from '@/utils/utils.js'
+import PlayerList from "./PlayerList.vue";
 
 export default {
   name: "WhirlingWitchcraft",
   props: {
   },
   components: {
-    PlayerBoad
+    PlayerBoad,
+    PlayerList
   },
   data() {
     return {
