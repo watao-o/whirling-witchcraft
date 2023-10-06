@@ -17,7 +17,7 @@
           <td>{{ player.num }}</td>
           <td v-if="player.num == '1'">
             {{ player.name }}
-            <font-awesome-icon :icon="['fas', 'frog']" style="color: green;"/>
+            <font-awesome-icon :icon="['fas', 'frog']" style="color: green;" bounce />
           </td>
           <td v-else-if="player.num == '2'">
             {{ player.name }}
@@ -33,7 +33,7 @@
           </td>
           <td v-else-if="player.num == '5'">
             {{ player.name }}
-            <v-icon color="blue">mdi-spider</v-icon>
+            <font-awesome-icon :icon="['fas', 'spider']" style="color: blue;" bounce />
           </td>
         </tr>
       </tbody>

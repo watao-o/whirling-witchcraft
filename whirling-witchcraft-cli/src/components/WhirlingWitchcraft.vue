@@ -1,46 +1,48 @@
 <template>
-  <v-container align="center" class="mx-2 max-dimensions">
-    <VRow justify="center">
-      <h1>Sample Page</h1>
-    </VRow>
-    <VRow justify="center" class="py-6">
-      <VBtn @click="sampleEvent" color="primary">sample</VBtn>
-    </VRow>
-    <VRow justify="center">
-      <h2>{{ msg  }}</h2>
-    </VRow>
-    <VRow justify="center" class="py-6">
-      <VBtn @click="playerInfo.materials.black++" color="black">add black</VBtn>
-      <VBtn @click="playerInfo.materials.black--" color="black">dec black</VBtn>
-      <VBtn @click="playerInfo.materials.white++" color="white">add white</VBtn>
-      <VBtn @click="playerInfo.materials.white--" color="white">dec white</VBtn>
-      <VBtn @click="playerInfo.materials.red++" color="red">add red</VBtn>
-      <VBtn @click="playerInfo.materials.red--" color="red">dec red</VBtn>
-      <VBtn @click="playerInfo.materials.blue++" color="blue">add blue</VBtn>
-      <VBtn @click="playerInfo.materials.blue--" color="blue">dec blue</VBtn>
-      <VBtn @click="playerInfo.materials.green++" color="green">add green</VBtn>
-      <VBtn @click="playerInfo.materials.green--" color="green">dec green</VBtn>
-    </VRow>
-    <VRow class="justify-end">
-      <player-list ref="playerList"></player-list>
-    </VRow>
-    <!-- プレイヤーボード -->
-    <player-boad
-      ref="playerBoad"
-      :mixingCards="playerInfo.placedMixingCards"
-      :materials="playerInfo.materials"
-      @updateCardUsed="updateCardUsed($event)"
-      @alert="alert($event)"
-    ></player-boad>
-    <v-footer app border height="60">
-      <!-- アラート -->
-      <v-alert
-        v-if="showAlert"
-        type="warning"
-        :title="alertMsg"
-      ></v-alert>
-    </v-footer>
-  </v-container>
+  <div class="container-sticky">
+    <v-container align="center" class="mx-2 max-dimensions">
+      <VRow justify="center">
+        <h1>Sample Page</h1>
+      </VRow>
+      <VRow justify="center" class="py-6">
+        <VBtn @click="sampleEvent" color="primary">sample</VBtn>
+      </VRow>
+      <VRow justify="center">
+        <h2>{{ msg  }}</h2>
+      </VRow>
+      <VRow justify="center" class="py-6">
+        <VBtn @click="playerInfo.materials.black++" color="black">add black</VBtn>
+        <VBtn @click="playerInfo.materials.black--" color="black">dec black</VBtn>
+        <VBtn @click="playerInfo.materials.white++" color="white">add white</VBtn>
+        <VBtn @click="playerInfo.materials.white--" color="white">dec white</VBtn>
+        <VBtn @click="playerInfo.materials.red++" color="red">add red</VBtn>
+        <VBtn @click="playerInfo.materials.red--" color="red">dec red</VBtn>
+        <VBtn @click="playerInfo.materials.blue++" color="blue">add blue</VBtn>
+        <VBtn @click="playerInfo.materials.blue--" color="blue">dec blue</VBtn>
+        <VBtn @click="playerInfo.materials.green++" color="green">add green</VBtn>
+        <VBtn @click="playerInfo.materials.green--" color="green">dec green</VBtn>
+      </VRow>
+      <VRow class="heading-sticky">
+        <player-list ref="playerList"></player-list>
+      </VRow>
+      <!-- プレイヤーボード -->
+      <player-boad
+        ref="playerBoad"
+        :mixingCards="playerInfo.placedMixingCards"
+        :materials="playerInfo.materials"
+        @updateCardUsed="updateCardUsed($event)"
+        @alert="alert($event)"
+      ></player-boad>
+      <v-footer app border height="60">
+        <!-- アラート -->
+        <v-alert
+          v-if="showAlert"
+          type="warning"
+          :title="alertMsg"
+        ></v-alert>
+      </v-footer>
+    </v-container>
+  </div>
 </template>
 
 
@@ -171,4 +173,15 @@ export default {
 </script>
 
 <style scoped>
+.container-sticky {
+  height: auto;
+  width: 100%;
+}
+.heading-sticky {
+  justify-content: flex-end;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
 </style>
