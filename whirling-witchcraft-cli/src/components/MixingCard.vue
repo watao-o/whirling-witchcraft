@@ -1,38 +1,31 @@
 <template>
   <v-container class="pa-0">
-    <v-card max-height="30" width="250" color="deep-purple-lighten-4">
+    <v-card max-height="30" :width="cardWidth" color="deep-purple-lighten-4">
       <VRow>
         <v-col cols="3" class="py-0"/>
         <v-col cols="6" class="py-0">
-          <!-- <v-btn
-            color="deep-purple-lighten-3"
-            @click="useCard"
-          >
-            カード使用
-          </v-btn> -->
           <v-checkbox
             v-model="usedCard"
             justify="center"
             label="useCard"
             class="ma-0"
             density="comfortable"
-            @click="onChkBox()"
           />
         </v-col>
         <v-col cols="3" class="py-0"/>
       </VRow>
     </v-card>
         
-    <v-card width="250" max-height="350" color="deep-purple-lighten-4" class="pa-0">
+    <v-card :width="cardWidth" :max-height="cardWidth * 1.5" color="deep-purple-lighten-4" class="pa-0">
       <v-img
         contain
-        :src="require('@/assets/card_outer2.png')"
-        max-height="500"
-        max-width="250"
-        alt="カードの外側"
+        :src="require('@/assets/mixing_card.png')"
+        :max-height="cardWidth * 1.5"
+        :max-width="cardWidth"
+        alt="カード画像"
       >
       <v-card-item class="py-0">
-        <v-card-title class="custom-height-arcana py-0">
+        <v-card-title class="custom-height-arcana pt-0">
           <!-- 魔術書 -->
           <v-chip v-for="n in card.arcanaMagicBook" :key="n" class="mt-1 px-2">
             <v-icon color="green">mdi-notebook-multiple</v-icon>
@@ -48,21 +41,21 @@
         </v-card-title>
       </v-card-item>
       <v-card-text>
-        <v-card>
-        <!-- <v-card color="lime-lighten-5"> -->
-          <v-img
-            contain
-            :src="require('@/assets/card_inner_noname.png')"
-            max-height="400"
-            max-width="220"
-            alt="カードの内側"
-          >
-          <v-card-title :style="fontStyle" class="pt-5">
+        <v-card color="rgb(0, 0, 0, 0)">
+          <v-card-title :style="fontStyle" class="pt-8">
             {{ card.name }}
           </v-card-title>
-          <v-card-text color="white" class="custom-height py-0 px-10">
+          <v-card-text class="custom-height py-0 px-10">
             <!-- 黒 -->
-            <v-chip label variant="elevated" color="grey-darken-3" v-for="n in card.upperBlack" :key="n">
+            <v-chip
+              label
+              variant="elevated"
+              color="grey-darken-3"
+              class="small-chip"
+              max-width="10px"
+              v-for="n in card.upperBlack"
+              :key="n"
+            >
               <v-icon color="black">mdi-emoticon-devil</v-icon>
             </v-chip>
             <!-- 白 -->
@@ -185,7 +178,6 @@
               ></v-card>
             </VRow>
           </v-card-text>
-          </v-img>
         </v-card>
         </v-card-text>
       </v-img>
@@ -208,10 +200,11 @@ export default {
       usedCard: false,
       returnFlg: false,
       fontStyle: {
-        fontSize: "15pt",
+        fontSize: "12pt",
         fontFamily: "游明朝",
         color: "olive"
-      }
+      },
+      cardWidth: 250
     };
   },
   created() {
@@ -220,7 +213,6 @@ export default {
   },
   watch: {
     usedCard(newVal) {
-      console.log('watchです！！')
       // 設置可能チェック
       // カードを使用した場合
       if (newVal) {
@@ -231,7 +223,6 @@ export default {
             this.materials.green >= this.card.upperGreen) {
             this.$emit('updateCardUsed', { usedCard: newVal, card: this.card })      
         } else {
-          // console.log('設置不可です!!!')
           this.$emit('alert', '設置不可です！！！')
           this.returnFlg = true
           this.usedCard = false
@@ -250,27 +241,6 @@ export default {
     useCard () {
       console.log('カード使用：', this.card.name)
     },
-    onChkBox () {
-      // console.log('------onChkBox:')
-      // console.log('onChkBox:', this.usedCard)
-      // // 設置可能チェック
-      // // カードを使用した場合
-      // if (!this.usedCard) {
-      //   if (this.materials.black >= this.card.upperBlack &&
-      //       this.materials.white >= this.card.upperWhite &&
-      //       this.materials.red >= this.card.upperRed &&
-      //       this.materials.blue >= this.card.upperBlue &&
-      //       this.materials.green >= this.card.upperGreen) {
-      //       this.$emit('updateCardUsed', { usedCard: this.usedCard, card: this.card })      
-      //   } else {
-      //     console.log('設置不可です!!!')
-      //     this.usedCard = true
-      //   }
-      // // カードの使用を解除した場合
-      // } else {
-      //   this.$emit('updateCardUsed', { usedCard: this.usedCard, card: this.card })
-      // }
-    }
  },
 };
 </script>

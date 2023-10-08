@@ -1,32 +1,8 @@
 <template>
   <v-container align="center" class="mx-2 max-dimensions">
-    <v-card :style="playerListStyle" color="purple-lighten-4">
-      <v-card-title>
-        プレイヤーリスト
-      </v-card-title>
-      <v-card-text>
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th :style="borderStyle + 'background-color: lightblue; width: 40px;'">隣人</th>
-                <th :style="borderStyle + 'background-color: lightblue; width: 40px;'">No</th>
-                <th :style="borderStyle + 'background-color: lightblue; width: 150px;'">name</th>
-              </tr>
-            </thead>
-            <tbody  style="background-color: white;">
-              <tr v-for="player in playerList" :key="player.num">
-                <td v-if="player.right" :style="borderStyle + colorRight">右隣</td>
-                <td v-else-if="player.left" :style="borderStyle + colorLeft">左隣</td>
-                <td v-else :style="borderStyle"></td>
-                <td :style="borderStyle + (player.right ? colorRight : (player.left ? colorLeft : ''))">{{ player.num }}</td>
-                <td :style="borderStyle + (player.right ? colorRight : (player.left ? colorLeft : ''))">{{ player.name }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-card-text>
-    </v-card>
+    <player-list
+      :playerList="playerList"
+    ></player-list>
     <VRow justify="center">
       <h1>Sample Page</h1>
     </VRow>
@@ -53,6 +29,7 @@
       ref="playerBoad"
       :mixingCards="playerInfo.placedMixingCards"
       :materials="playerInfo.materials"
+      :handCards="playerInfo.handCards"
       @updateCardUsed="updateCardUsed($event)"
       @alert="alert($event)"
     ></player-boad>
@@ -96,6 +73,7 @@
 <script>
 import { io } from "socket.io-client";
 import PlayerBoad from "./PlayerBoad.vue";
+import PlayerList from "./PlayerList.vue"
 import data from "@/assets/data.json"
 import { getMixingCardData } from '@/utils/utils.js'
 
@@ -104,7 +82,8 @@ export default {
   props: {
   },
   components: {
-    PlayerBoad
+    PlayerBoad,
+    PlayerList
   },
   data() {
     return {
@@ -138,7 +117,9 @@ export default {
           {cardId: 'card_0003'},
           {cardId: 'card_0010'},
           {cardId: 'card_0011'},
-          {cardId: 'card_0017'}
+          {cardId: 'card_0017'},
+          {cardId: 'card_0008'},
+          {cardId: 'card_0027'}
         ],
         // 魔女カードID
         witchCardId: 'witch_0001',
@@ -163,16 +144,7 @@ export default {
       otherPlayerInfoList: [],
       showAlert: false,
       alertMsg: '',
-      playerListStyle: {
-        position: 'fixed',
-        top: '20px', // 画面上部からの距離（適宜調整）
-        right: '20px', // 画面右側からの距離（適宜調整）
-      },
       data: data,
-      // style
-      borderStyle: 'border: 1px solid;',
-      colorLeft: 'background-color: yellow;',
-      colorRight: 'background-color: orange;',
     };
   },
   created() {
@@ -193,8 +165,6 @@ export default {
       }
     });
     console.log('他プレイヤー情報:', this.otherPlayerInfoList)
-  },
-  computed: {
   },
   watch: {
   },
