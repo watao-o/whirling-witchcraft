@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "socket.io-client": "^4.7.2",
     "vue": "^3.2.13",
+    "vue-router": "^4.0.3",
     "vuetify": "^3.3.16",
     "webfontloader": "^1.6.28"
   },
@@ -25,6 +26,7 @@
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-standard": "^6.1.0",
     "eslint": "^7.32.0",

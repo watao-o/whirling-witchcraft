@@ -1,5 +1,12 @@
 <template>
   <v-container align="center" class="mx-2 max-dimensions">
+    <!-- アラート -->
+    <v-alert
+      v-if="showAlert"
+      type="warning"
+      :title="alertMsg"
+      position="absolute"
+    ></v-alert>
     <player-list
       :playerList="playerList"
     ></player-list>
@@ -58,14 +65,6 @@
         </v-col>
       </v-row>
     </v-card>
-    <v-footer app border height="60">
-      <!-- アラート -->
-      <v-alert
-        v-if="showAlert"
-        type="warning"
-        :title="alertMsg"
-      ></v-alert>
-    </v-footer>
   </v-container>
 </template>
 
