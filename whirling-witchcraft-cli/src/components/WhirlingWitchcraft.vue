@@ -69,7 +69,6 @@
   </v-container>
 </template>
 
-
 <script>
 import { io } from "socket.io-client";
 import PlayerBoad from "./PlayerBoad.vue";
@@ -78,14 +77,14 @@ import data from "@/assets/data.json"
 import { getMixingCardData, getRandomNum } from '@/utils/utils.js'
 
 export default {
-  name: "WhirlingWitchcraft",
+  name: 'WhirlingWitchcraft',
   props: {
   },
   components: {
     PlayerBoad,
     PlayerList
   },
-  data() {
+  data () {
     return {
       socket: io('http://localhost:3000'),
       msg: "",
@@ -114,7 +113,7 @@ export default {
           white: 1,
           red: 4,
           blue: 4,
-          green: 4 
+          green: 4
         },
         // 設置済み調合法カード
         placedMixingCards: [
@@ -185,28 +184,28 @@ export default {
   },
   watch: {
   },
-  mounted() {
+  mounted () {
     // サーバーからのイベント受信
-    this.socket.on("recieveSampleEvent", (param) => {
+    this.socket.on('recieveSampleEvent', (param) => {
       console.log('success!!')
       // 受け取ったパラメータを設定
       this.msg = param
-    });
+    })
   },
   methods: {
     /**
      * sampleボタンクリックでサーバー呼び出し
      */
-    sampleEvent() {
-      console.log("callsampleEvent");
-      this.socket.emit("sampleEvent")
+    sampleEvent () {
+      console.log('callsampleEvent')
+      this.socket.emit('sampleEvent')
       console.log('カードデータ取得')
-      console.log('取得：',getMixingCardData('card_0002'))
+      console.log('取得：', getMixingCardData('card_0002'))
     },
     /**
      * カード使用イベント
      */
-    updateCardUsed ({usedCard, card}) {
+    updateCardUsed ({ usedCard, card }) {
       // カードを新しく使用する場合、資源を使用
       if (usedCard) {
         this.playerInfo.materials.black -= card.upperBlack
@@ -234,8 +233,8 @@ export default {
         }, 1000)
       }
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>

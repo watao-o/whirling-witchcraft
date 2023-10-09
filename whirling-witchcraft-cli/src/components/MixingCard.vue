@@ -15,7 +15,6 @@
         <v-col cols="3" class="py-0"/>
       </VRow>
     </v-card>
-        
     <v-card :width="cardWidth" :max-height="cardWidth * 1.5" color="deep-purple-lighten-4" class="pa-0">
       <v-img
         contain
@@ -187,7 +186,7 @@
 
 <script>
 export default {
-  name: "MixingCard",
+  name: 'MixingCard',
   props: {
     card: { type: Object },
     // 所持資材
@@ -195,7 +194,7 @@ export default {
   },
   components: {
   },
-  data() {
+  data () {
     return {
       usedCard: false,
       returnFlg: false,
@@ -207,9 +206,9 @@ export default {
       cardWidth: 250
     };
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
   },
   watch: {
     usedCard(newVal) {
@@ -221,7 +220,7 @@ export default {
             this.materials.red >= this.card.upperRed &&
             this.materials.blue >= this.card.upperBlue &&
             this.materials.green >= this.card.upperGreen) {
-            this.$emit('updateCardUsed', { usedCard: newVal, card: this.card })      
+          this.$emit('updateCardUsed', { usedCard: newVal, card: this.card })
         } else {
           this.$emit('alert', '設置不可です！！！')
           this.returnFlg = true

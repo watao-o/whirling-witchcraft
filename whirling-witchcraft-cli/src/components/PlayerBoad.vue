@@ -53,13 +53,13 @@
 </template>
 
 <script>
-import MaterialArea from './MaterialArea.vue';
+import MaterialArea from './MaterialArea.vue'
 import MixingCard from './MixingCard.vue'
 import HandCard from "./HandCard.vue"
 import { getMixingCardData } from '@/utils/utils.js'
 
 export default {
-  name: "PlayerBoad",
+  name: 'PlayerBoad',
   props: {
     // 設置済み調合法カード
     mixingCards: { type: Array },
@@ -73,23 +73,23 @@ export default {
     MaterialArea,
     HandCard
   },
-  data() {
+  data () {
     return {
       getMixingCardData:getMixingCardData
     };
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
   },
   methods: {
-    updateCardUsed ({usedCard, card}) {
+    updateCardUsed ({ usedCard, card }) {
       console.log('updateCardUsed')
       console.log('used:', usedCard, 'card:', card)
-      this.$emit('updateCardUsed', )
+      this.$emit('updateCardUsed')
     }
- },
-};
+  }
+}
 </script>
 
 <style scoped>
