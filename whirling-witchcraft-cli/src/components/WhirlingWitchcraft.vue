@@ -1,5 +1,12 @@
 <template>
   <v-container align="center" class="mx-2 max-dimensions">
+    <!-- アラート -->
+    <v-alert
+      v-if="showAlert"
+      type="warning"
+      :title="alertMsg"
+      position="absolute"
+    ></v-alert>
     <VRow justify="center">
       <h1>Sample Page</h1>
     </VRow>
@@ -29,14 +36,6 @@
       @updateCardUsed="updateCardUsed($event)"
       @alert="alert($event)"
     ></player-boad>
-    <v-footer app border height="60">
-      <!-- アラート -->
-      <v-alert
-        v-if="showAlert"
-        type="warning"
-        :title="alertMsg"
-      ></v-alert>
-    </v-footer>
   </v-container>
 </template>
 
