@@ -39,7 +39,7 @@
     </v-card>
     <v-card border>
       <v-row>
-        <v-col cols="6" v-for="otherPlayer in otherPlayerInfoList" :key="otherPlayer.num" :style='borderStyle'>
+        <v-col cols="6" v-for="otherPlayer in otherPlayerInfoList" :key="otherPlayer.num" class="border">
         <v-card :color="otherPlayer.right ? 'orange' : otherPlayer.left ? 'yellow' : 'purple-lighten-4'">
           <h2>
             <div v-if="otherPlayer.right">右隣：{{ otherPlayer.name }}</div>
@@ -75,7 +75,7 @@ import { io } from "socket.io-client";
 import PlayerBoad from "./PlayerBoad.vue";
 import PlayerList from "./PlayerList.vue"
 import data from "@/assets/data.json"
-import { getMixingCardData } from '@/utils/utils.js'
+import { getMixingCardData, getRandomNum } from '@/utils/utils.js'
 
 export default {
   name: "WhirlingWitchcraft",
@@ -98,6 +98,11 @@ export default {
         {num: 4, name: "ikutoru", right: false, left: false},
         {num: 5, name: "hamu", right: false, left: false}
       ],
+      // 部屋情報
+      room: {
+        // 山札
+        decks: []
+      },
       playerInfo: {
         // プレイヤーNo
         num: 1,
@@ -134,10 +139,10 @@ export default {
         },
         // 手札情報
         handCards: [
-          {cardId: 'card_0002'},
-          {cardId: 'card_0003'},
-          {cardId: 'card_0004'},
-          {cardId: 'card_0005'}
+          // {cardId: 'card_0002'},
+          // {cardId: 'card_0003'},
+          // {cardId: 'card_0004'},
+          // {cardId: 'card_0005'}
         ]
       },
       // 他プレイヤー情報
@@ -151,6 +156,7 @@ export default {
     this.socket.on("connect", () => {
       console.log("connected");
     });
+
     this.playerList.forEach(player => {
       // 自分以外のプレイヤーの情報を作成する
       if (player.name !== this.playerName) {
@@ -165,6 +171,17 @@ export default {
       }
     });
     console.log('他プレイヤー情報:', this.otherPlayerInfoList)
+    // 山札を作成（本番はサーバーでルーム作成時に実行予定）
+    this.decks = data.cardList.map(card => card.cardId)
+    console.log('山札：', this.decks)
+    // 手札を４枚配布
+    for(let i = 0; i < 4; i++) {
+      const randomIndex = getRandomNum(0, this.decks.length - 1)
+      console.log('randomIndex:', randomIndex)
+      this.playerInfo.handCards.push({cardId: this.decks[randomIndex]})
+      // TODO:山札から除外
+    }
+    console.log('手札：', this.playerInfo.handCards)
   },
   watch: {
   },
@@ -222,4 +239,7 @@ export default {
 </script>
 
 <style scoped>
+.border{
+  border: 1px solid;
+}
 </style>

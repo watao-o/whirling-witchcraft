@@ -4,13 +4,13 @@
       プレイヤーリスト
     </v-card-title>
     <v-card-text>
-      <v-simple-table>
+      <v-table density="compact">
         <template v-slot:default>
           <thead>
             <tr>
-              <th style="width: 50px;">隣人</th>
-              <th style="width: 50px;">No</th>
-              <th style="width: 200px;">name</th>
+              <th style="width: 70px;">隣人</th>
+              <th style="width: 70px;">No</th>
+              <th style="width: 180px;">name</th>
             </tr>
           </thead>
           <tbody>
@@ -23,7 +23,7 @@
             </tr>
           </tbody>
         </template>
-      </v-simple-table>
+      </v-table>
     </v-card-text>
   </v-card>
 </template>
@@ -65,7 +65,6 @@ export default {
 /* プレイヤーリストテーブルレイアウト設定 */
 th,td {
   border: solid 1px;  /* 枠線指定 */
-  padding: 3px;      /* 余白指定 */
 }
 table {
   border-collapse:  collapse; /* セルの線を重ねる */
