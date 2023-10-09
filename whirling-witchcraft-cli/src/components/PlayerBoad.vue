@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import MaterialArea from './MaterialArea.vue';
+import MaterialArea from './MaterialArea.vue'
 import MixingCard from './MixingCard.vue'
 import { getMixingCardData } from '@/utils/utils.js'
 
 export default {
-  name: "PlayerBoad",
+  name: 'PlayerBoad',
   props: {
     // 設置済み調合法カード
     mixingCards: { type: Array },
@@ -41,30 +41,30 @@ export default {
     MixingCard,
     MaterialArea
   },
-  data() {
+  data () {
     return {
       cards: [
-        {id: "0001", name: '粉砕の呪文１'},
-        {id: "0002", name: '粉砕の呪文２'},
-        {id: "0003", name: '粉砕の呪文３'},
-        {id: "0004", name: '粉砕の呪文４'},
-        {id: "0005", name: '粉砕の呪文５'}
+        { id: '0001', name: '粉砕の呪文１' },
+        { id: '0002', name: '粉砕の呪文２' },
+        { id: '0003', name: '粉砕の呪文３' },
+        { id: '0004', name: '粉砕の呪文４' },
+        { id: '0005', name: '粉砕の呪文５' }
       ],
-      getMixingCardData:getMixingCardData
-    };
+      getMixingCardData: getMixingCardData
+    }
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
   },
   methods: {
-    updateCardUsed ({usedCard, card}) {
+    updateCardUsed ({ usedCard, card }) {
       console.log('updateCardUsed')
       console.log('used:', usedCard, 'card:', card)
-      this.$emit('updateCardUsed', )
+      this.$emit('updateCardUsed')
     }
- },
-};
+  }
+}
 </script>
 
 <style scoped>

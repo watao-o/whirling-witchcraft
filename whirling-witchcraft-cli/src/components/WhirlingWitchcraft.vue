@@ -40,24 +40,23 @@
   </v-container>
 </template>
 
-
 <script>
-import { io } from "socket.io-client";
-import PlayerBoad from "./PlayerBoad.vue";
-import data from "@/assets/data.json"
+import { io } from 'socket.io-client'
+import PlayerBoad from './PlayerBoad.vue'
+import data from '@/assets/data.json'
 import { getMixingCardData } from '@/utils/utils.js'
 
 export default {
-  name: "WhirlingWitchcraft",
+  name: 'WhirlingWitchcraft',
   props: {
   },
   components: {
     PlayerBoad
   },
-  data() {
+  data () {
     return {
       socket: io('http://localhost:3000'),
-      msg: "",
+      msg: '',
       // プレイヤー情報（サーバーで保持する予定）
       playerInfo: {
         // プレイヤーNo
@@ -70,14 +69,14 @@ export default {
           white: 1,
           red: 4,
           blue: 4,
-          green: 4 
+          green: 4
         },
         // 設置済み調合法カード
         placedMixingCards: [
-          {cardId: 'card_0001'},
-          {cardId: 'card_0003'},
-          {cardId: 'card_0010'},
-          {cardId: 'card_0011'},
+          { cardId: 'card_0001' },
+          { cardId: 'card_0003' },
+          { cardId: 'card_0010' },
+          { cardId: 'card_0011' }
         ],
         // 魔女カードID
         witchCardId: 'witch_0001',
@@ -92,48 +91,48 @@ export default {
         },
         // 手札情報
         handCards: [
-          {cardId: 'card_0002'},
-          {cardId: 'card_0003'},
-          {cardId: 'card_0004'},
-          {cardId: 'card_0005'}
+          { cardId: 'card_0002' },
+          { cardId: 'card_0003' },
+          { cardId: 'card_0004' },
+          { cardId: 'card_0005' }
         ]
       },
       showAlert: false,
       alertMsg: '',
       data: data
-    };
+    }
   },
-  created() {
-    this.socket.on("connect", () => {
-      console.log("connected");
-    });
+  created () {
+    this.socket.on('connect', () => {
+      console.log('connected')
+    })
   },
   computed: {
   },
   watch: {
   },
-  mounted() {
+  mounted () {
     // サーバーからのイベント受信
-    this.socket.on("recieveSampleEvent", (param) => {
+    this.socket.on('recieveSampleEvent', (param) => {
       console.log('success!!')
       // 受け取ったパラメータを設定
       this.msg = param
-    });
+    })
   },
   methods: {
     /**
      * sampleボタンクリックでサーバー呼び出し
      */
-    sampleEvent() {
-      console.log("callsampleEvent");
-      this.socket.emit("sampleEvent")
+    sampleEvent () {
+      console.log('callsampleEvent')
+      this.socket.emit('sampleEvent')
       console.log('カードデータ取得')
-      console.log('取得：',getMixingCardData('card_0002'))
+      console.log('取得：', getMixingCardData('card_0002'))
     },
     /**
      * カード使用イベント
      */
-    updateCardUsed ({usedCard, card}) {
+    updateCardUsed ({ usedCard, card }) {
       // カードを新しく使用する場合、資源を使用
       if (usedCard) {
         this.playerInfo.materials.black -= card.upperBlack
@@ -161,8 +160,8 @@ export default {
         }, 1000)
       }
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>

@@ -93,24 +93,24 @@
 
 <script>
 export default {
-  name: "materialArea",
+  name: 'materialArea',
   props: {
     // 所持資材
     materials: { type: Object }
   },
   components: {
   },
-  data() {
+  data () {
     return {
-    };
+    }
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
   },
   methods: {
- },
-};
+  }
+}
 </script>
 
 <style scoped>
