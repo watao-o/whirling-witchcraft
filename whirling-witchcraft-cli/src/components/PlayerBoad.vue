@@ -55,7 +55,7 @@
 <script>
 import MaterialArea from './MaterialArea.vue'
 import MixingCard from './MixingCard.vue'
-import HandCard from "./HandCard.vue"
+import HandCard from './HandCard.vue'
 import { getMixingCardData } from '@/utils/utils.js'
 
 export default {
@@ -64,7 +64,7 @@ export default {
     // 設置済み調合法カード
     mixingCards: { type: Array },
     // 手札
-    handCards: { type: Array , default: () => [] },
+    handCards: { type: Array, default: () => [] },
     // 所持資材
     materials: { type: Object }
   },
@@ -75,8 +75,8 @@ export default {
   },
   data () {
     return {
-      getMixingCardData:getMixingCardData
-    };
+      getMixingCardData: getMixingCardData
+    }
   },
   created () {
   },
@@ -93,10 +93,11 @@ export default {
 </script>
 
 <style scoped>
-.border{
+.border {
   border: 5px solid;
 }
-.back-color{
+
+.back-color {
   background: linear-gradient(to bottom right, blue, pink);
 }
 </style>

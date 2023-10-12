@@ -199,19 +199,19 @@ export default {
       usedCard: false,
       returnFlg: false,
       fontStyle: {
-        fontSize: "12pt",
-        fontFamily: "游明朝",
-        color: "olive"
+        fontSize: '12pt',
+        fontFamily: '游明朝',
+        color: 'olive'
       },
       cardWidth: 250
-    };
+    }
   },
   created () {
   },
   mounted () {
   },
   watch: {
-    usedCard(newVal) {
+    usedCard (newVal) {
       // 設置可能チェック
       // カードを使用した場合
       if (newVal) {
@@ -239,9 +239,9 @@ export default {
   methods: {
     useCard () {
       console.log('カード使用：', this.card.name)
-    },
- },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

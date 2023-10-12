@@ -11,7 +11,7 @@ const routes = [
     path: '/WhirlingWitchcraft',
     name: 'WhirlingWitchcraft',
     component: () => import('@/components/WhirlingWitchcraft.vue')
-  },
+  }
 ]
 
 const router = createRouter({

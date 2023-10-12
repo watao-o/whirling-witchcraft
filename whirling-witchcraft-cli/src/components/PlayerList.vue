@@ -31,34 +31,34 @@
 <script>
 
 export default {
-  name: "PlayerList",
+  name: 'PlayerList',
   props: {
     // プレイヤーリスト
-    playerList: { type: Array , default: () => [] }
+    playerList: { type: Array, default: () => [] }
   },
   components: {
   },
-  data() {
+  data () {
     return {
       playerListStyle: {
         position: 'fixed',
         top: '20px', // 画面上部からの距離（適宜調整）
-        right: '20px', // 画面右側からの距離（適宜調整）
-      },
-    };
+        right: '20px' // 画面右側からの距離（適宜調整）
+      }
+    }
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
   },
   methods: {
     getTableBodyClass (player) {
-      return player.right ? 'table-body-right' :
-             player.left ? 'table-body-left' :
-             'table-body'
-    },
-  },
-};
+      if (player.right) return 'table-body-right'
+      else if (player.left) return 'table-body-left'
+      else return 'table-body'
+    }
+  }
+}
 </script>
 
 <style scoped>

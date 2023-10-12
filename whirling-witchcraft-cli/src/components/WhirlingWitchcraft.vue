@@ -69,10 +69,10 @@
 </template>
 
 <script>
-import { io } from "socket.io-client";
-import PlayerBoad from "./PlayerBoad.vue";
-import PlayerList from "./PlayerList.vue"
-import data from "@/assets/data.json"
+import { io } from 'socket.io-client'
+import PlayerBoad from './PlayerBoad.vue'
+import PlayerList from './PlayerList.vue'
+import data from '@/assets/data.json'
 import { getMixingCardData, getRandomNum } from '@/utils/utils.js'
 
 export default {
@@ -86,15 +86,15 @@ export default {
   data () {
     return {
       socket: io('http://localhost:3000'),
-      msg: "",
+      msg: '',
       playerName: 'oshi',
       // プレイヤー情報（サーバーで保持する予定）
       playerList: [
-        {num: 1, name: "ega", right: false, left: true},
-        {num: 2, name: "oshi", right: false, left: false},
-        {num: 3, name: "ta1", right: true, left: false},
-        {num: 4, name: "ikutoru", right: false, left: false},
-        {num: 5, name: "hamu", right: false, left: false}
+        { num: 1, name: 'ega', right: false, left: true },
+        { num: 2, name: 'oshi', right: false, left: false },
+        { num: 3, name: 'ta1', right: true, left: false },
+        { num: 4, name: 'ikutoru', right: false, left: false },
+        { num: 5, name: 'hamu', right: false, left: false }
       ],
       // 部屋情報
       room: {
@@ -116,13 +116,13 @@ export default {
         },
         // 設置済み調合法カード
         placedMixingCards: [
-          {cardId: 'card_0001'},
-          {cardId: 'card_0003'},
-          {cardId: 'card_0010'},
-          {cardId: 'card_0011'},
-          {cardId: 'card_0017'},
-          {cardId: 'card_0008'},
-          {cardId: 'card_0027'}
+          { cardId: 'card_0001' },
+          { cardId: 'card_0003' },
+          { cardId: 'card_0010' },
+          { cardId: 'card_0011' },
+          { cardId: 'card_0017' },
+          { cardId: 'card_0008' },
+          { cardId: 'card_0027' }
         ],
         // 魔女カードID
         witchCardId: 'witch_0001',
@@ -147,13 +147,13 @@ export default {
       otherPlayerInfoList: [],
       showAlert: false,
       alertMsg: '',
-      data: data,
-    };
+      data: data
+    }
   },
-  created() {
-    this.socket.on("connect", () => {
-      console.log("connected");
-    });
+  created () {
+    this.socket.on('connect', () => {
+      console.log('connected')
+    })
 
     this.playerList.forEach(player => {
       // 自分以外のプレイヤーの情報を作成する
@@ -163,20 +163,20 @@ export default {
           num: player.num,
           name: player.name,
           right: player.right,
-          left: player.left 
+          left: player.left
         }
         this.otherPlayerInfoList.push(playerInfo)
       }
-    });
+    })
     console.log('他プレイヤー情報:', this.otherPlayerInfoList)
     // 山札を作成（本番はサーバーでルーム作成時に実行予定）
     this.decks = data.cardList.map(card => card.cardId)
     console.log('山札：', this.decks)
     // 手札を４枚配布
-    for(let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
       const randomIndex = getRandomNum(0, this.decks.length - 1)
       console.log('randomIndex:', randomIndex)
-      this.playerInfo.handCards.push({cardId: this.decks[randomIndex]})
+      this.playerInfo.handCards.push({ cardId: this.decks[randomIndex] })
       // TODO:山札から除外
     }
     console.log('手札：', this.playerInfo.handCards)

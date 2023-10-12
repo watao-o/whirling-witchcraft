@@ -93,7 +93,7 @@
 
 <script>
 export default {
-  name: "HandCard",
+  name: 'HandCard',
   props: {
     card: { type: Object },
     // 所持資材
@@ -101,25 +101,25 @@ export default {
   },
   components: {
   },
-  data() {
+  data () {
     return {
       fontStyle: {
-        fontSize: "12pt",
-        fontFamily: "游明朝",
-        color: "olive"
+        fontSize: '12pt',
+        fontFamily: '游明朝',
+        color: 'olive'
       },
       cardWidth: 250
-    };
+    }
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
   },
   watch: {
   },
   methods: {
- },
-};
+  }
+}
 </script>
 
 <style scoped>
