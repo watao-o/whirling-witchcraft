@@ -1,7 +1,8 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/WhirlingWitchcraft">WhiringWichcraft</router-link>
+    <router-link to="/WhirlingWitchcraft">WhiringWichcraft</router-link> |
+    <router-link to="/card-list">CardList</router-link>
   </nav>
   <router-view/>
 </template>

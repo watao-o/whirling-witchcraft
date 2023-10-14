@@ -11,6 +11,11 @@ const routes = [
     path: '/WhirlingWitchcraft',
     name: 'WhirlingWitchcraft',
     component: () => import('@/components/WhirlingWitchcraft.vue')
+  },
+  {
+    path: '/card-list',
+    name: 'cardList',
+    component: () => import('@/components/infomation/CardList.vue')
   }
 ]
 
