@@ -15,11 +15,10 @@
         <v-col cols="3" class="py-0"/>
       </VRow>
     </v-card>
-    <v-card :width="cardWidth" :max-height="cardWidth * 1.5" color="deep-purple-lighten-4" class="pa-0">
+    <v-card :width="cardWidth" color="deep-purple-lighten-4" class="pa-0">
       <v-img
         contain
         :src="require('@/assets/mixing_card.png')"
-        :max-height="cardWidth * 1.5"
         :max-width="cardWidth"
         alt="カード画像"
       >
@@ -73,41 +72,45 @@
             <v-chip label variant="elevated" color="blue-lighten-3" v-for="n in card.upperBlue" :key="n">
               <v-icon color="blue">mdi-spider</v-icon>
             </v-chip>
+            <!-- 2色 -->
+            <TwoColorIcon
+              :doubleObj="card.lowerDouble"
+            ></TwoColorIcon>
             <!-- カード使用をONにしたときに表示 -->
             <VRow v-if="usedCard" justify="center" class="mt-1">
               <v-card
                 v-for="n in card.upperBlack" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'black'"
               ></v-card>
               <v-card
                 v-for="n in card.upperWhite" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'white'"
               ></v-card>
               <v-card
                 v-for="n in card.upperGreen" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'green'"
               ></v-card>
               <v-card
                 v-for="n in card.upperRed" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'red'"
               ></v-card>
               <v-card
                 v-for="n in card.upperBlue" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'blue'"
               ></v-card>
             </VRow>
@@ -138,41 +141,45 @@
             <v-chip label variant="elevated" color="blue-lighten-3" v-for="n in card.lowerBlue" :key="n">
               <v-icon color="blue">mdi-spider</v-icon>
             </v-chip>
+            <!-- 2色 -->
+            <TwoColorIcon
+              :doubleObj="card.lowerDouble"
+            ></TwoColorIcon>
             <!-- カード使用をONにしたときに表示 -->
             <VRow v-if="usedCard" justify="center" class="mt-1">
               <v-card
                 v-for="n in card.lowerBlack" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'black'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerWhite" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'white'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerGreen" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'green'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerRed" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'red'"
               ></v-card>
               <v-card
                 v-for="n in card.lowerBlue" :key="n"
                 loading
-                max-height="15"
-                max-width="15"
+                :height="chipSize"
+                :width="chipSize"
                 :color="'blue'"
               ></v-card>
             </VRow>
@@ -185,6 +192,8 @@
 </template>
 
 <script>
+import TwoColorIcon from '@/components/parts/TwoColorIcon.vue'
+
 export default {
   name: 'MixingCard',
   props: {
@@ -193,6 +202,7 @@ export default {
     materials: { type: Object }
   },
   components: {
+    TwoColorIcon
   },
   data () {
     return {
@@ -203,7 +213,8 @@ export default {
         fontFamily: '游明朝',
         color: 'olive'
       },
-      cardWidth: 250
+      cardWidth: 250,
+      chipSize: '15'
     }
   },
   created () {
@@ -212,6 +223,7 @@ export default {
   },
   watch: {
     usedCard (newVal) {
+      console.log('■MixingCard.vue:usedCard()')
       // 設置可能チェック
       // カードを使用した場合
       if (newVal) {
@@ -220,6 +232,7 @@ export default {
             this.materials.red >= this.card.upperRed &&
             this.materials.blue >= this.card.upperBlue &&
             this.materials.green >= this.card.upperGreen) {
+          console.log('設置')
           this.$emit('updateCardUsed', { usedCard: newVal, card: this.card })
         } else {
           this.$emit('alert', '設置不可です！！！')

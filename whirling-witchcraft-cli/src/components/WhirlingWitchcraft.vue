@@ -36,7 +36,9 @@
       ref="playerBoad"
       :mixingCards="playerInfo.placedMixingCards"
       :materials="playerInfo.materials"
+      :makeMaterials="playerInfo.makeMaterials"
       :handCards="playerInfo.handCards"
+      :type="'owner'"
       @updateCardUsed="updateCardUsed($event)"
       @alert="alert($event)"
     ></player-boad>
@@ -58,6 +60,7 @@
               :ref="'playerBoad' + otherPlayer.num"
               :mixingCards="otherPlayer.placedMixingCards"
               :materials="otherPlayer.materials"
+              :type="'other'"
               @updateCardUsed="updateCardUsed($event)"
               @alert="alert($event)"
             ></player-boad>
@@ -114,12 +117,20 @@ export default {
           blue: 4,
           green: 4
         },
+        // 生成資材
+        makeMaterials: {
+          black: 0,
+          white: 0,
+          red: 0,
+          blue: 0,
+          green: 0
+        },
         // 設置済み調合法カード
         placedMixingCards: [
           { cardId: 'card_0001' },
           { cardId: 'card_0003' },
           { cardId: 'card_0010' },
-          { cardId: 'card_0011' },
+          { cardId: 'card_0023' },
           { cardId: 'card_0017' },
           { cardId: 'card_0008' },
           { cardId: 'card_0027' }
@@ -205,20 +216,35 @@ export default {
      * カード使用イベント
      */
     updateCardUsed ({ usedCard, card }) {
+      console.log('■WhirlingWitchcraft.vue:updateCardUsed()')
       // カードを新しく使用する場合、資源を使用
       if (usedCard) {
+        // 所持資材を消費
         this.playerInfo.materials.black -= card.upperBlack
         this.playerInfo.materials.white -= card.upperWhite
         this.playerInfo.materials.red -= card.upperRed
         this.playerInfo.materials.blue -= card.upperBlue
         this.playerInfo.materials.green -= card.upperGreen
+        // 生成資材に追加
+        this.playerInfo.makeMaterials.black += card.lowerBlack
+        this.playerInfo.makeMaterials.white += card.lowerWhite
+        this.playerInfo.makeMaterials.red += card.lowerRed
+        this.playerInfo.makeMaterials.blue += card.lowerBlue
+        this.playerInfo.makeMaterials.green += card.lowerGreen
       // カードの使用をやめる場合、使っている資源を追加
       } else {
+        // 所持資材を元に戻す
         this.playerInfo.materials.black += card.upperBlack
         this.playerInfo.materials.white += card.upperWhite
         this.playerInfo.materials.red += card.upperRed
         this.playerInfo.materials.blue += card.upperBlue
         this.playerInfo.materials.green += card.upperGreen
+        // 生成資材を元に戻す
+        this.playerInfo.makeMaterials.black -= card.lowerBlack
+        this.playerInfo.makeMaterials.white -= card.lowerWhite
+        this.playerInfo.makeMaterials.red -= card.lowerRed
+        this.playerInfo.makeMaterials.blue -= card.lowerBlue
+        this.playerInfo.makeMaterials.green -= card.lowerGreen
       }
     },
     alert (msg) {

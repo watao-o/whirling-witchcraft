@@ -1,16 +1,18 @@
 <template>
   <v-container>
+    <v-row justify="center">
+      <h1>カードリスト</h1>
+    </v-row>
     <v-row>
       <v-col
         v-for="card in cardList"
         :key="card.cardId"
         cols="2"
       >
-        <v-card :width="cardWidth" :max-height="cardWidth * 1.5" class="pa-0">
+        <v-card :width="cardWidth" class="pa-0">
           <v-img
             contain
             :src="require('@/assets/mixing_card.png')"
-            :max-height="cardWidth * 1.5"
             :max-width="cardWidth"
             alt="カードの外側"
           >
@@ -64,6 +66,10 @@
                 <v-chip label variant="elevated" color="blue-lighten-3" v-for="n in card.upperBlue" :key="n">
                   <v-icon color="blue">mdi-spider</v-icon>
                 </v-chip>
+                <!-- 2色 -->
+                <TwoColorIcon
+                  :doubleObj="card.upperDouble"
+                ></TwoColorIcon>
               </v-card-text>
               <v-card-text class="py-0">
                 <v-icon v-if="!card.reversable" color="black">mdi-arrow-down-thick</v-icon>
@@ -91,6 +97,10 @@
                 <v-chip label variant="elevated" color="blue-lighten-3" v-for="n in card.lowerBlue" :key="n">
                   <v-icon color="blue">mdi-spider</v-icon>
                 </v-chip>
+                <!-- 2色 -->
+                <TwoColorIcon
+                  :doubleObj="card.lowerDouble"
+                ></TwoColorIcon>
               </v-card-text>
             </v-card>
             </v-card-text>
@@ -102,28 +112,30 @@
 </template>
 
 <script>
-import { cardList } from '@/assets/data.json'
+import data from '@/assets/data.json'
+import TwoColorIcon from '@/components/parts/TwoColorIcon.vue'
 
 export default {
   name: 'CardList',
   props: {
   },
   components: {
+    TwoColorIcon
   },
   data () {
     return {
-      cardList: cardList,
+      cardList: data.cardList,
       fontStyle: {
         fontSize: '15pt',
         fontFamily: '游明朝',
         color: 'olive'
       },
-      cardWidth: 250
+      cardWidth: 260
     }
   },
   created () {
     console.log('カードリスト.vueだよ')
-    console.log(cardList)
+    console.log(data.cardList)
   },
   mounted () {
   },
@@ -133,4 +145,11 @@ export default {
 </script>
 
 <style scoped>
+.custom-height {
+  height: 75px;
+}
+.custom-height-arcana{
+  height: 30px;
+}
+
 </style>

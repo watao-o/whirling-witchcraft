@@ -1,5 +1,5 @@
 <template>
-  <v-card :width="cardWidth" :max-height="cardWidth * 1.5" class="pa-0">
+  <v-card :width="cardWidth" :max-height="cardWidth * 1.5" class="pa-0" @click="console.log('手札クリック')">
     <v-img
       contain
       :src="require('@/assets/mixing_card.png')"

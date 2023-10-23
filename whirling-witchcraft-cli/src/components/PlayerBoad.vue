@@ -36,6 +36,11 @@
           alt="アルカナカード"
         />
       </v-col>
+      <v-col cols="2" v-if="type === 'owner'">
+        <make-materials
+          :makeMaterials="makeMaterials"
+        />
+      </v-col>
     </v-row>
     <div v-if="handCards.length !== 0">
       <v-row class="border">
@@ -56,6 +61,7 @@
 import MaterialArea from './MaterialArea.vue'
 import MixingCard from './MixingCard.vue'
 import HandCard from './HandCard.vue'
+import MakeMaterials from './MakeMaterials.vue'
 import { getMixingCardData } from '@/utils/utils.js'
 
 export default {
@@ -66,12 +72,16 @@ export default {
     // 手札
     handCards: { type: Array, default: () => [] },
     // 所持資材
-    materials: { type: Object }
+    materials: { type: Object },
+    // 生成資材
+    makeMaterials: { type: Object },
+    type: { type: String }
   },
   components: {
     MixingCard,
     MaterialArea,
-    HandCard
+    HandCard,
+    MakeMaterials
   },
   data () {
     return {
@@ -83,11 +93,6 @@ export default {
   mounted () {
   },
   methods: {
-    updateCardUsed ({ usedCard, card }) {
-      console.log('updateCardUsed')
-      console.log('used:', usedCard, 'card:', card)
-      this.$emit('updateCardUsed')
-    }
   }
 }
 </script>
@@ -98,6 +103,6 @@ export default {
 }
 
 .back-color {
-  background: linear-gradient(to bottom right, blue, pink);
+  background: linear-gradient(to bottom right, white, pink);
 }
 </style>
