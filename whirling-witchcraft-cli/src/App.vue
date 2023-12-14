@@ -1,10 +1,12 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/WhirlingWitchcraft">WhiringWichcraft</router-link> |
-    <router-link to="/card-list">CardList</router-link>
-  </nav>
-  <router-view/>
+  <v-app>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/BaseWhirlingWitchcraft">WhiringWichcraft</router-link> |
+      <router-link to="/card-list">CardList</router-link>
+    </nav>
+    <router-view/>
+  </v-app>
 </template>
 
 <style>

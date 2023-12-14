@@ -5,6 +5,7 @@
     max-height="400"
     max-width="220"
     alt="魔女カード"
+    @click="$emit('clickWitch')"
   />
 </template>
 
@@ -12,6 +13,8 @@
 export default {
   name: 'SelectWitchDialog',
   props: {
+    // 魔女カードID
+    witchId: String
   },
   components: {
   },

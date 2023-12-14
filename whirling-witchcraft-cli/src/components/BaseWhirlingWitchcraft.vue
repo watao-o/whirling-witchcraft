@@ -11,14 +11,9 @@
       :playerList="playerList"
     ></player-list>
     <VRow justify="center">
-      <h1>Sample Page</h1>
-    </VRow>
-    <VRow justify="center" class="py-6">
-      <VBtn @click="sampleEvent" color="primary">sample</VBtn>
-    </VRow>
-    <VRow justify="center">
       <h2>{{ msg  }}</h2>
     </VRow>
+    <!-- ゲーム開始ボタン（仮） -->
     <VRow justify="center" class="py-6">
       <VBtn @click="startGame" color="primary">start game</VBtn>
     </VRow>
@@ -72,6 +67,7 @@
     </v-card>
     <select-witch-dialog
       ref="selectWitchDialog"
+      @select-witch="selectWitch($event)"
     ></select-witch-dialog>
   </v-container>
 </template>
@@ -82,10 +78,10 @@ import PlayerBoard from './PlayerBoard.vue'
 import PlayerList from './PlayerList.vue'
 import SelectWitchDialog from '@/components/dialog/SelectWitchDialog'
 import data from '@/assets/data.json'
-import { getMixingCardData, getRandomNum, getDecks } from '@/utils/utils.js'
+import { getMixingCardData, getRandomNum, getDecks, getWitchDecks, getWitchCardData } from '@/utils/utils.js'
 
 export default {
-  name: 'WhirlingWitchcraft',
+  name: 'BaseWhirlingWitchcraft',
   props: {
   },
   components: {
@@ -109,7 +105,9 @@ export default {
       // 部屋情報
       room: {
         // 山札
-        decks: []
+        decks: [],
+        // 魔女カード山札
+        witchDecks: []
       },
       playerInfo: {
         // プレイヤーNo
@@ -154,12 +152,9 @@ export default {
           nostrum: 0
         },
         // 手札情報
-        handCards: [
-          // {cardId: 'card_0002'},
-          // {cardId: 'card_0003'},
-          // {cardId: 'card_0004'},
-          // {cardId: 'card_0005'}
-        ]
+        handCards: [],
+        // 初期選択魔女一覧
+        selectableWitchs: []
       },
       // 他プレイヤー情報
       otherPlayerInfoList: [],
@@ -212,7 +207,7 @@ export default {
   },
   methods: {
     /**
-     * ゲーム開始イベント
+     * ゲーム開始イベント（作成中）
      */
     startGame () {
       // 他プレイヤー情報の作成 TODO:サーバーに移行予定
@@ -225,49 +220,80 @@ export default {
             name: player.name,
             right: player.right,
             left: player.left,
-            handCards: []
+            handCards: [],
+            selectableWitchs: []
           }
           this.otherPlayerInfoList.push(playerInfo)
         }
       })
-      console.log('他プレイヤー情報:', JSON.stringify(this.otherPlayerInfoList, null, 2))
-      // 山札を作成 TODO:サーバーに移行予定
-      this.decks = getDecks()
-      console.log('山札：', this.decks)
+      console.log('他プレイヤー情報:', this.otherPlayerInfoList)
+      // 山札・魔女カード山札を作成 TODO:サーバーに移行予定
+      this.room.decks = getDecks()
+      this.room.witchDecks = getWitchDecks()
+
       // 自分の手札配布 TODO:（サーバーに移行予定）
-      this.distributeCard(this.playerInfo.handCards)
+      this.distributeCard(this.playerInfo.handCards, this.room.decks, 4, 'card')
+      console.log('自分の手札：', JSON.stringify(this.playerInfo.handCards))
       // 他プレイヤーの手札配布 TODO:（サーバーに移行予定）
       this.otherPlayerInfoList.forEach(o => {
-        this.distributeCard(o.handCards)
+        this.distributeCard(o.handCards, this.room.decks, 4, 'card')
       })
-      console.log('自分の手札：', JSON.stringify(this.playerInfo.handCards))
+
+      // 自分の魔女カードを配布 TODO:（サーバーに移行予定）
+      this.distributeCard(this.playerInfo.selectableWitchs, this.room.witchDecks, 2, 'witch')
+      console.log('魔女カード：', this.playerInfo.selectableWitchs)
+      // 他プレイヤーの魔女カード配布 TODO:（サーバーに移行予定）
       this.otherPlayerInfoList.forEach(o => {
-        console.log('他プレイヤー手札:', o.name, ':', JSON.stringify(o.handCards))
+        this.distributeCard(o.selectableWitchs, this.room.witchDecks, 2, 'witch')
       })
-      // 手札を配る
-
-      // 魔女カードを配る
-
       // 魔女選択ダイアログ
-      this.$refs.selectWitchDialog.openDialog()
-      // 魔女カードに応じた資材を配る
-
-      // 魔女カードの応じたアルカナを配る
+      this.$refs.selectWitchDialog.openDialog(this.playerInfo.selectableWitchs)
     },
     /**
      * 手札配布
      * @param {Array} handCards 手札情報
+     * @param {Array} decks 山札情報
+     * @param {Array} distributeNum 配る枚数
+     * @param {Array} type 種類（調合法カード or 魔女カード）
      */
-    distributeCard (handCards) {
+    distributeCard (handCards, decks, distributeNum, type) {
       // 手札を４枚配布
-      for (let i = 0; i < 4; i++) {
-        const randomIndex = getRandomNum(0, this.decks.length - 1)
-        console.log('randomIndex:', randomIndex)
-        // handCards.push(this.decks[randomIndex])
-        handCards.push({ cardId: this.decks[randomIndex] })
+      for (let i = 0; i < distributeNum; i++) {
+        const randomIndex = getRandomNum(0, decks.length - 1)
+        // 調合法カード
+        if (type === 'card') handCards.push({ cardId: decks[randomIndex] })
+        // 魔女カード
+        else handCards.push({ witchId: decks[randomIndex] })
         // 山札から除外
-        this.decks.splice(randomIndex, 1)
+        decks.splice(randomIndex, 1)
       }
+    },
+    /**
+     * 魔女選択
+     * @param {String} witchId 魔女カードID
+     */
+    selectWitch (witchId) {
+      console.log('選択した魔女カードID:', witchId)
+      const witchData = getWitchCardData(witchId)
+      // this.alert('選択した魔女カード:' + witchData.name)
+      this.$toast.success('選択した魔女カード:' + witchData.name)
+      this.playerInfo.witchCardId = witchId
+      console.log(witchData)
+
+      // 魔女カードに応じた資材を配る
+      this.playerInfo.materials.black = witchData.initBlack
+      this.playerInfo.materials.white = witchData.initWhite
+      this.playerInfo.materials.red = witchData.initRed
+      this.playerInfo.materials.blue = witchData.initBlue
+      this.playerInfo.materials.green = witchData.initGreen
+      console.log('初期資材：', JSON.stringify(this.playerInfo.materials))
+
+      // 魔女カードの応じたアルカナを配る(TODO:アルカナのデータがないためデータ修正後に対応)
+
+      // 使用カードを1枚選択
+      this.$toast.info('使用するカードを１枚選んでください')
+
+      // TODO:手札選択可能フラグをONにする
     },
     /**
      * sampleボタンクリックでサーバー呼び出し
@@ -282,7 +308,7 @@ export default {
      * カード使用イベント
      */
     updateCardUsed ({ usedCard, card }) {
-      console.log('■WhirlingWitchcraft.vue:updateCardUsed()')
+      console.log('■BaseWhirlingWitchcraft.vue:updateCardUsed()')
       // カードを新しく使用する場合、資源を使用
       if (usedCard) {
         // 所持資材を消費
@@ -314,14 +340,13 @@ export default {
       }
     },
     alert (msg) {
-      console.log('アラート：', msg)
       if (!this.showAlert) {
         this.alertMsg = msg
         this.showAlert = true
         setTimeout(() => {
           this.showAlert = false
           this.alertMsg = ''
-        }, 1000)
+        }, 5000)
       }
     }
   }

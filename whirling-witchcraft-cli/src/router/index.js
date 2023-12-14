@@ -8,9 +8,9 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/WhirlingWitchcraft',
-    name: 'WhirlingWitchcraft',
-    component: () => import('@/components/WhirlingWitchcraft.vue')
+    path: '/BaseWhirlingWitchcraft',
+    name: 'BaseWhirlingWitchcraft',
+    component: () => import('@/components/BaseWhirlingWitchcraft.vue')
   },
   {
     path: '/card-list',
