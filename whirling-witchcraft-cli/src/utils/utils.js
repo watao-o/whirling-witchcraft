@@ -5,7 +5,14 @@ import data from '@/assets/data.json'
  * @param { String } cardId カードID
  */
 export function getMixingCardData (cardId) {
+  console.log('getMixingCardData:', cardId)
   return data.cardList.find(card => card.cardId === cardId)
+}
+/**
+ * 山札作成
+ */
+export function getDecks () {
+  return data.cardList.map(d => d.cardId)
 }
 
 /**

@@ -20,6 +20,9 @@
       <h2>{{ msg  }}</h2>
     </VRow>
     <VRow justify="center" class="py-6">
+      <VBtn @click="startGame" color="primary">start game</VBtn>
+    </VRow>
+    <VRow justify="center" class="py-6">
       <VBtn @click="playerInfo.materials.black++" color="black">add black</VBtn>
       <VBtn @click="playerInfo.materials.black--" color="black">dec black</VBtn>
       <VBtn @click="playerInfo.materials.white++" color="white">add white</VBtn>
@@ -32,8 +35,8 @@
       <VBtn @click="playerInfo.materials.green--" color="green">dec green</VBtn>
     </VRow>
     <!-- プレイヤーボード -->
-    <player-boad
-      ref="playerBoad"
+    <player-board
+      ref="PlayerBoard"
       :mixingCards="playerInfo.placedMixingCards"
       :materials="playerInfo.materials"
       :makeMaterials="playerInfo.makeMaterials"
@@ -41,7 +44,7 @@
       :type="'owner'"
       @updateCardUsed="updateCardUsed($event)"
       @alert="alert($event)"
-    ></player-boad>
+    ></player-board>
     <!-- 他プレイヤー情報 -->
     <v-card color="blue">
       <h1>他プレイヤー情報</h1>
@@ -56,35 +59,39 @@
             <div v-else>{{ otherPlayer.name }}</div>
           </h2>
         </v-card>
-            <player-boad
-              :ref="'playerBoad' + otherPlayer.num"
+            <player-board
+              :ref="'PlayerBoard' + otherPlayer.num"
               :mixingCards="otherPlayer.placedMixingCards"
               :materials="otherPlayer.materials"
               :type="'other'"
               @updateCardUsed="updateCardUsed($event)"
               @alert="alert($event)"
-            ></player-boad>
-          <!-- {{ otherPlayer }} -->
+            ></player-board>
         </v-col>
       </v-row>
     </v-card>
+    <select-witch-dialog
+      ref="selectWitchDialog"
+    ></select-witch-dialog>
   </v-container>
 </template>
 
 <script>
 import { io } from 'socket.io-client'
-import PlayerBoad from './PlayerBoad.vue'
+import PlayerBoard from './PlayerBoard.vue'
 import PlayerList from './PlayerList.vue'
+import SelectWitchDialog from '@/components/dialog/SelectWitchDialog'
 import data from '@/assets/data.json'
-import { getMixingCardData, getRandomNum } from '@/utils/utils.js'
+import { getMixingCardData, getRandomNum, getDecks } from '@/utils/utils.js'
 
 export default {
   name: 'WhirlingWitchcraft',
   props: {
   },
   components: {
-    PlayerBoad,
-    PlayerList
+    PlayerBoard,
+    PlayerList,
+    SelectWitchDialog
   },
   data () {
     return {
@@ -127,13 +134,13 @@ export default {
         },
         // 設置済み調合法カード
         placedMixingCards: [
-          { cardId: 'card_0001' },
-          { cardId: 'card_0003' },
-          { cardId: 'card_0010' },
-          { cardId: 'card_0023' },
-          { cardId: 'card_0017' },
-          { cardId: 'card_0008' },
-          { cardId: 'card_0027' }
+          // { cardId: 'card_0001' },
+          // { cardId: 'card_0003' },
+          // { cardId: 'card_0010' },
+          // { cardId: 'card_0023' },
+          // { cardId: 'card_0017' },
+          // { cardId: 'card_0008' },
+          // { cardId: 'card_0027' }
         ],
         // 魔女カードID
         witchCardId: 'witch_0001',
@@ -166,31 +173,32 @@ export default {
       console.log('connected')
     })
 
-    this.playerList.forEach(player => {
-      // 自分以外のプレイヤーの情報を作成する
-      if (player.name !== this.playerName) {
-        const playerInfo = {
-          ...this.playerInfo,
-          num: player.num,
-          name: player.name,
-          right: player.right,
-          left: player.left
-        }
-        this.otherPlayerInfoList.push(playerInfo)
-      }
-    })
-    console.log('他プレイヤー情報:', this.otherPlayerInfoList)
-    // 山札を作成（本番はサーバーでルーム作成時に実行予定）
-    this.decks = data.cardList.map(card => card.cardId)
-    console.log('山札：', this.decks)
-    // 手札を４枚配布
-    for (let i = 0; i < 4; i++) {
-      const randomIndex = getRandomNum(0, this.decks.length - 1)
-      console.log('randomIndex:', randomIndex)
-      this.playerInfo.handCards.push({ cardId: this.decks[randomIndex] })
-      // TODO:山札から除外
-    }
-    console.log('手札：', this.playerInfo.handCards)
+    // this.playerList.forEach(player => {
+    //   // 自分以外のプレイヤーの情報を作成する
+    //   if (player.name !== this.playerName) {
+    //     const playerInfo = {
+    //       ...this.playerInfo,
+    //       num: player.num,
+    //       name: player.name,
+    //       right: player.right,
+    //       left: player.left
+    //     }
+    //     this.otherPlayerInfoList.push(playerInfo)
+    //   }
+    // })
+    // console.log('他プレイヤー情報:', JSON.stringify(this.otherPlayerInfoList, null, 2))
+    // // 山札を作成（本番はサーバーでルーム作成時に実行予定）
+    // // this.decks = data.cardList.map(card => card.cardId)
+    // this.decks = getDecks()
+    // console.log('山札：', this.decks)
+    // // 手札を４枚配布
+    // for (let i = 0; i < 4; i++) {
+    //   const randomIndex = getRandomNum(0, this.decks.length - 1)
+    //   console.log('randomIndex:', randomIndex)
+    //   this.playerInfo.handCards.push({ cardId: this.decks[randomIndex] })
+    //   // TODO:山札から除外
+    // }
+    // console.log('手札：', this.playerInfo.handCards)
   },
   watch: {
   },
@@ -203,6 +211,64 @@ export default {
     })
   },
   methods: {
+    /**
+     * ゲーム開始イベント
+     */
+    startGame () {
+      // 他プレイヤー情報の作成 TODO:サーバーに移行予定
+      this.playerList.forEach(player => {
+        // 自分以外のプレイヤーの情報を作成する
+        if (player.name !== this.playerName) {
+          const playerInfo = {
+            ...this.playerInfo,
+            num: player.num,
+            name: player.name,
+            right: player.right,
+            left: player.left,
+            handCards: []
+          }
+          this.otherPlayerInfoList.push(playerInfo)
+        }
+      })
+      console.log('他プレイヤー情報:', JSON.stringify(this.otherPlayerInfoList, null, 2))
+      // 山札を作成 TODO:サーバーに移行予定
+      this.decks = getDecks()
+      console.log('山札：', this.decks)
+      // 自分の手札配布 TODO:（サーバーに移行予定）
+      this.distributeCard(this.playerInfo.handCards)
+      // 他プレイヤーの手札配布 TODO:（サーバーに移行予定）
+      this.otherPlayerInfoList.forEach(o => {
+        this.distributeCard(o.handCards)
+      })
+      console.log('自分の手札：', JSON.stringify(this.playerInfo.handCards))
+      this.otherPlayerInfoList.forEach(o => {
+        console.log('他プレイヤー手札:', o.name, ':', JSON.stringify(o.handCards))
+      })
+      // 手札を配る
+
+      // 魔女カードを配る
+
+      // 魔女選択ダイアログ
+      this.$refs.selectWitchDialog.openDialog()
+      // 魔女カードに応じた資材を配る
+
+      // 魔女カードの応じたアルカナを配る
+    },
+    /**
+     * 手札配布
+     * @param {Array} handCards 手札情報
+     */
+    distributeCard (handCards) {
+      // 手札を４枚配布
+      for (let i = 0; i < 4; i++) {
+        const randomIndex = getRandomNum(0, this.decks.length - 1)
+        console.log('randomIndex:', randomIndex)
+        // handCards.push(this.decks[randomIndex])
+        handCards.push({ cardId: this.decks[randomIndex] })
+        // 山札から除外
+        this.decks.splice(randomIndex, 1)
+      }
+    },
     /**
      * sampleボタンクリックでサーバー呼び出し
      */

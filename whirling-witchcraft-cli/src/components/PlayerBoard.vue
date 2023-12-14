@@ -1,5 +1,6 @@
 <template>
   <v-container class="mx-2 back-color">
+    {{ 'playerBoad type:' + type }}
     <v-row class="border py-5">
       <v-col v-for="card in mixingCards" :key="card.cardId" cols="2" class="mx-3 px-0 py-1">
         <mixing-card
@@ -19,13 +20,7 @@
         />
       </v-col>
       <v-col cols="2" class="mt-6">
-        <v-img
-          contain
-          :src="require('@/assets/witch.png')"
-          max-height="400"
-          max-width="220"
-          alt="魔女カード"
-        />
+        <card-witch/>
       </v-col>
       <v-col cols="2" class="mt-6">
         <v-img
@@ -63,9 +58,10 @@ import MixingCard from './MixingCard.vue'
 import HandCard from './HandCard.vue'
 import MakeMaterials from './MakeMaterials.vue'
 import { getMixingCardData } from '@/utils/utils.js'
+import CardWitch from '@/components/card/CardWitch'
 
 export default {
-  name: 'PlayerBoad',
+  name: 'PlayerBoard',
   props: {
     // 設置済み調合法カード
     mixingCards: { type: Array },
@@ -81,7 +77,8 @@ export default {
     MixingCard,
     MaterialArea,
     HandCard,
-    MakeMaterials
+    MakeMaterials,
+    CardWitch
   },
   data () {
     return {
